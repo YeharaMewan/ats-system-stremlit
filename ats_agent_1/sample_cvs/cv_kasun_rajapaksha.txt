@@ -1,0 +1,9 @@
+Kasun Rajapaksha - DevOps Engineer
+
+Summary: A certified AWS DevOps Engineer with extensive experience in automating software development and deployment pipelines. Focused on improving CI/CD processes, infrastructure as code, and system reliability.
+
+Experience:
+- DevOps Engineer, CloudLeap Technologies (2019-Present): Implemented and managed CI/CD pipelines using Jenkins and GitLab CI. Managed infrastructure on AWS using Terraform and CloudFormation.
+- Systems Administrator, DataNet (2016-2019): Maintained Linux servers and managed network configurations.
+
+Skills: AWS, Azure, CI/CD, Jenkins, GitLab CI, Docker, Kubernetes, Terraform, Ansible, Python, Bash Scripting.

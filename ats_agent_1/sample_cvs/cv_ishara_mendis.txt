@@ -1,0 +1,9 @@
+Ishara mendis - Backend Developer
+
+Summary: A detail-oriented Backend Developer with over 6 years of experience in designing, developing, and maintaining scalable server-side applications and APIs. Proven ability to work with microservices architecture.
+
+Experience:
+- Senior Backend Engineer, Virtusa (2020-Present): Developed RESTful APIs for a major banking application using Python and Django. Integrated third-party payment gateways.
+- Software Engineer, 99x (2018-2020): Worked on database design and optimization for high-traffic applications using PostgreSQL and Redis.
+
+Skills: Python, Django, Flask, Java, Go, Microservices, REST API, gRPC, Docker, Kubernetes, PostgreSQL.

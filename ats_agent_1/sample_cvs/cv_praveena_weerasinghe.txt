@@ -1,0 +1,9 @@
+Praveena Weerasinghe - Business Analyst
+
+Summary: An analytical and methodical Business Analyst with a strong ability to bridge the gap between business stakeholders and technical teams. Skilled in requirement elicitation, process modeling, and data analysis.
+
+Experience:
+- Senior Business Analyst, Synapsys (2018-Present): Gathered and documented requirements for a core banking system upgrade. Created detailed process flows using BPMN and UML diagrams.
+- Junior Analyst, Mitchel-Martin (2016-2018): Assisted in market research and data analysis to support business decisions.
+
+Skills: Requirement Gathering, Business Process Modeling (BPMN), UML, Agile, Scrum, JIRA, SQL, Data Analysis, Stakeholder Management.

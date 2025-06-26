@@ -1,0 +1,9 @@
+Tharindu Gunasekara - Cybersecurity Analyst
+
+Summary: A proactive Cybersecurity Analyst with a strong understanding of network security, threat analysis, and incident response. Certified in CompTIA Security+ and passionate about protecting digital assets.
+
+Experience:
+- Cybersecurity Analyst, SecureNet IT (2020-Present): Monitored network traffic for suspicious activity using SIEM tools. Conducted vulnerability assessments and penetration tests.
+- IT Support Engineer, CoreTech (2018-2020): Provided technical support and managed user access controls and firewall configurations.
+
+Skills: Network Security, SIEM, Vulnerability Assessment, Penetration Testing, Firewalls, Incident Response, CompTIA Security+, Wireshark.

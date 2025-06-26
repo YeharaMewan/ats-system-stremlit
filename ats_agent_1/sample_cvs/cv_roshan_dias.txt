@@ -1,0 +1,9 @@
+Roshan Dias - QA Automation Engineer
+
+Summary: A meticulous QA Automation Engineer with over 5 years of experience in developing and executing automated test scripts to ensure software quality. Proficient in various testing frameworks and tools.
+
+Experience:
+- QA Automation Lead, TestPro Solutions (2020-Present): Designed and built an automation framework from scratch using Selenium and Java. Led a team of junior QA engineers.
+- Software Tester, BugFinders Ltd. (2018-2020): Performed manual and automated testing for web and mobile applications. Reported bugs using JIRA.
+
+Skills: QA Automation, Selenium WebDriver, Cypress, Java, Python, TestNG, JIRA, Postman, API Testing, Performance Testing.

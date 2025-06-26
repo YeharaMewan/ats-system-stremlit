@@ -1,0 +1,5 @@
+[
+  { "employee_id": "E-123", "name": "Kamal Perera", "base_salary": 50000.00 },
+  { "employee_id": "E-456", "name": "Nimala Silva", "base_salary": 62000.00 },
+  { "employee_id": "E-789", "name": "Saman Jayasuriya", "base_salary": 75000.00 }
+]
