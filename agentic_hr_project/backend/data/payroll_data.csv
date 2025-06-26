@@ -1,0 +1,4 @@
+employee_id,name,department,salary,tax_rate,bonus,deductions
+EMP001,Kasun Perera,IT,75000,0.15,5000,2000
+EMP002,Amara Silva,HR,65000,0.12,3000,1500
+EMP003,Nimal Fernando,Finance,80000,0.18,6000,2500

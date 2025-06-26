@@ -1,9 +1,0 @@
-Nimala Silva - Frontend Developer
-
-Summary: A creative Frontend Developer with a passion for building responsive and user-friendly web applications. Skilled in modern JavaScript frameworks and UI/UX principles.
-
-Experience:
-- Frontend Developer, WebWeavers (2019-Present): Developed and maintained user interfaces using React and Redux. Collaborated with backend teams.
-- Junior Web Developer, SoftSys (2017-2019): Built static websites using HTML, CSS, and JavaScript.
-
-Skills: JavaScript, React, Redux, HTML5, CSS3, Webpack, UI/UX Design.

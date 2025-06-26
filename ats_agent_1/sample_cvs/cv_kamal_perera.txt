@@ -1,9 +1,0 @@
-Kamal Perera - Data Scientist
-
-Summary: A results-driven Data Scientist with 5 years of experience in machine learning, data analysis, and predictive modeling. Proficient in Python, R, SQL, and data visualization tools like Tableau.
-
-Experience:
-- Senior Data Scientist, TechCorp (2020-Present): Led projects on customer churn prediction and sales forecasting.
-- Data Analyst, FinData (2018-2020): Performed data cleaning and exploratory data analysis.
-
-Skills: Python, Machine Learning, SQL, Data Analysis, TensorFlow, Scikit-learn.

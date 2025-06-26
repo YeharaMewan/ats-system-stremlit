@@ -1,0 +1,25 @@
+Name: Sunali Silva
+Contact: sunali.silva@email.com | 071-3334445 | linkedin.com/in/sunalisilva
+
+Summary:
+A versatile Software Engineer with 5 years of experience in full-stack web development. Passionate about creating seamless user experiences by bridging the gap between frontend and backend technologies.
+
+Skills:
+- Languages: JavaScript, TypeScript, Python, HTML/CSS
+- Frontend: React, Next.js, Redux, Vue.js, Tailwind CSS
+- Backend: Node.js, Express.js, Python (Flask)
+- Databases: MongoDB, Firebase, PostgreSQL
+- Other: REST APIs, GraphQL, Git, Agile/Scrum
+
+Experience:
+Software Engineer - Digital Creations, Galle (2019 - Present)
+- Developed user-facing features for a SaaS application using React and Node.js.
+- Collaborated with UI/UX designers to translate wireframes into high-quality code.
+- Built and maintained RESTful APIs to support mobile and web clients.
+- Participated in agile sprints, code reviews, and pair programming sessions.
+
+Junior Developer - Web Weavers, Colombo (2017 - 2019)
+- Assisted in developing e-commerce websites using JavaScript and PHP.
+
+Education:
+B.Sc. in Information Technology - Sri Lanka Institute of Information Technology (SLIIT) (2013 - 2017)

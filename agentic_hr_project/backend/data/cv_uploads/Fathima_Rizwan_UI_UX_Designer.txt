@@ -1,0 +1,17 @@
+Name: Fathima Rizwan
+Contact: fathima.r@email.com | 075-9990001
+
+Summary:
+A creative and user-centric UI/UX Designer with 4 years of experience in designing intuitive and engaging digital products. Proficient in the end-to-end design process, from user research to high-fidelity prototyping.
+
+Skills:
+- Tools: Figma, Sketch, Adobe XD, InVision, Zeplin
+- Methods: User Research, Wireframing, Prototyping, Usability Testing, User Journey Mapping, Design Systems
+
+Experience:
+UI/UX Designer - Creative Circle, Colombo (2020 - Present)
+- Led the redesign of a mobile banking app, resulting in a 25% increase in user engagement.
+- Conducted user interviews and usability tests to gather insights and validate design decisions.
+
+Education:
+B.Des. in Design - University of Moratuwa

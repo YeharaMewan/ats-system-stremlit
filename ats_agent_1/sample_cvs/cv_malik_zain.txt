@@ -1,9 +1,0 @@
-Malik Zain - Cloud Architect
-
-Summary: A visionary and certified AWS Solutions Architect with over 10 years of experience in designing and implementing complex, secure, and scalable cloud-native solutions. Expert in cloud strategy and cost optimization.
-
-Experience:
-- Principal Cloud Architect, InfraCloud Ltd. (2018-Present): Designed the multi-region, highly available cloud architecture for a global SaaS product. Led cloud migration projects from on-premise data centers.
-- Senior Cloud Engineer, Amazon Web Services (2015-2018): Consulted with enterprise clients to design and build solutions on AWS.
-
-Skills: Cloud Architecture, AWS, Solution Design, Cloud Migration, Serverless, Cost Optimization, High Availability, Disaster Recovery, Azure, GCP.

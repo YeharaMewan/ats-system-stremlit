@@ -1,0 +1,18 @@
+Name: Anura Fernando
+Contact: anura.f@email.com | 072-7778889
+
+Summary:
+A certified Project Manager (PMP) with 7 years of experience managing complex IT projects from initiation to closure. Expertise in Agile and Scrum methodologies, with a strong ability to manage stakeholder expectations and deliver projects on time and within budget.
+
+Skills:
+- Methodologies: Agile, Scrum, Kanban, Waterfall
+- Tools: JIRA, Confluence, Trello, Microsoft Project
+- Project Management: Risk Management, Budgeting, Scheduling, Stakeholder Communication, Resource Allocation
+
+Experience:
+IT Project Manager - MillenniumIT, Colombo (2018 - Present)
+- Managed a portfolio of 3-5 software development projects simultaneously.
+- Facilitated daily stand-ups, sprint planning, and retrospective meetings.
+
+Education:
+MBA in Project Management - Postgraduate Institute of Management (PIM)

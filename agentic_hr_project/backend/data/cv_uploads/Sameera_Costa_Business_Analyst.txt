@@ -1,0 +1,18 @@
+Name: Sameera Costa
+Contact: sameera.c@email.com | 077-5678901
+
+Summary:
+An analytical Business Analyst with a strong ability to bridge the gap between business stakeholders and technical development teams. Experienced in gathering and documenting requirements, and modeling business processes.
+
+Skills:
+- Requirement Analysis: Elicitation, Documentation (BRD, FRD), Use Cases, User Stories
+- Modeling: BPMN, UML (Activity, Sequence diagrams)
+- Tools: MS Visio, Balsamiq, JIRA, Confluence
+
+Experience:
+Business Analyst - WSO2, Colombo (2019 - Present)
+- Conducted stakeholder workshops to gather requirements for a new API management platform.
+- Translated business needs into detailed technical specifications for the development team.
+
+Education:
+B.Sc. in Business Information Systems - University of Westminster

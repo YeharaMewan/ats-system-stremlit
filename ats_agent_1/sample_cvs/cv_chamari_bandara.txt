@@ -1,9 +1,0 @@
-Chamari Bandara - UI/UX Designer
-
-Summary: A creative and user-centric UI/UX Designer with a strong portfolio in creating intuitive and engaging digital experiences. Expert in user research, wireframing, and interactive prototyping.
-
-Experience:
-- Lead UI/UX Designer, CreativeWorks Agency (2019-Present): Led the design process for mobile and web applications, from user journey mapping to final high-fidelity mockups. Conducted usability testing sessions.
-- UI Designer, PixelPerfect Inc. (2017-2019): Created wireframes, storyboards, and visual designs for various client websites.
-
-Skills: UI Design, UX Research, Wireframing, Prototyping, Figma, Sketch, Adobe XD, User Journey Mapping, Usability Testing.

@@ -1,0 +1,12 @@
+Flask
+Flask-CORS
+langchain
+langgraph
+google-generativeai
+faiss-cpu
+pypdf
+python-dotenv
+pandas
+numpy
+sentence-transformers
+requests

@@ -1,0 +1,25 @@
+Name: Nimal Perera
+Contact: nimal.p@email.com | 077-1112223 | linkedin.com/in/nimalperera
+
+Summary:
+A results-driven Senior Software Engineer with over 8 years of experience specializing in backend development, system architecture, and cloud infrastructure. Proven ability to lead development teams and deliver scalable, high-performance applications.
+
+Skills:
+- Languages: Python, Go, SQL
+- Frameworks: Django, Flask, Gin
+- Databases: PostgreSQL, MySQL, Redis, MongoDB
+- Cloud/DevOps: AWS (EC2, S3, RDS, Lambda), Docker, Kubernetes, CI/CD (Jenkins, GitLab CI)
+- Other: Microservices Architecture, REST APIs, gRPC, System Design
+
+Experience:
+Senior Software Engineer - Tech Solutions PLC, Colombo (2018 - Present)
+- Led the architecture and development of a new microservices-based e-commerce platform.
+- Mentored a team of 5 junior and mid-level engineers.
+- Optimized database queries, reducing API response times by 40%.
+- Implemented a CI/CD pipeline which reduced deployment time by 75%.
+
+Software Engineer - Innovate Lanka, Kandy (2015 - 2018)
+- Developed and maintained backend services for a logistics management system using Django.
+
+Education:
+B.Sc. in Computer Science - University of Moratuwa (2011 - 2015)

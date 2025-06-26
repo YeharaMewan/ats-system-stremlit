@@ -1,0 +1,19 @@
+Name: Indika Weerasinghe
+Contact: indika.w@email.com | 078-4567890
+
+Summary:
+A meticulous QA Engineer with 6 years of experience in both manual and automated testing of web and mobile applications. Committed to ensuring the highest quality standards before product release.
+
+Skills:
+- Automation Tools: Selenium WebDriver, Cypress, Postman (for API testing)
+- Manual Testing: Test Case Design, Exploratory Testing, Regression Testing
+- Bug Tracking: JIRA, Azure DevOps
+- Other: Basic knowledge of SQL, understanding of CI/CD pipelines
+
+Experience:
+QA Engineer - LSEG Technology, Colombo (2018 - Present)
+- Developed and maintained automated test suites using Selenium and Java.
+- Identified and documented over 500 bugs with clear reproduction steps.
+
+Education:
+B.Sc. in Computer Networks - Sheffield Hallam University

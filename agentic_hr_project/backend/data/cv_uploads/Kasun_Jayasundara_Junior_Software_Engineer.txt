@@ -1,0 +1,20 @@
+Name: Kasun Jayasundara
+Contact: kasun.j@email.com | 076-5556667 | linkedin.com/in/kasunj
+
+Summary:
+An enthusiastic Junior Software Engineer with a strong focus on frontend development and modern web technologies. Eager to contribute to challenging projects and grow as a developer in a collaborative environment. Recently completed an internship focused on React development.
+
+Skills:
+- Languages: JavaScript, HTML5, CSS3
+- Frontend: React, Next.js, Zustand, CSS-in-JS, Material-UI
+- Tools: Git, Webpack, Vite, Figma
+- Familiar with: Node.js, Express, REST APIs
+
+Experience:
+Software Engineer Intern - Virtusa, Colombo (Jan 2024 - June 2024)
+- Developed and tested reusable UI components for a large-scale application using React and TypeScript.
+- Worked closely with senior developers to fix bugs and improve application performance.
+- Gained hands-on experience with state management and API integration.
+
+Education:
+B.Eng. in Software Engineering - University of Kelaniya (2020 - 2024)

@@ -1,9 +1,0 @@
-Sunil Jayawardena - Project Manager
-
-Summary: An experienced Project Manager with a PMP certification and a track record of delivering complex technical projects on time and within budget. Excellent communication and leadership skills.
-
-Experience:
-- IT Project Manager, BuildIt Solutions (2018-Present): Managed software development lifecycle for multiple enterprise applications using Agile methodologies.
-- Project Coordinator, NextGen Projects (2016-2018): Assisted senior project managers with scheduling, reporting, and stakeholder communication.
-
-Skills: Project Management, Agile, Scrum, PMP, JIRA, Risk Management, Budgeting.

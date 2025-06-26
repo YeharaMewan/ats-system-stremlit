@@ -1,0 +1,16 @@
+Name: Ravi Kumar
+Contact: ravi.k@email.com | 077-1234567
+
+Summary:
+A detail-oriented Data Analyst with a talent for translating complex data into actionable insights. Highly skilled in SQL, Python for data manipulation, and creating compelling visualizations in Power BI and Tableau.
+
+Skills:
+- Tools: SQL, Python (Pandas, NumPy, Matplotlib), R, Microsoft Excel, Power BI, Tableau
+- Techniques: Data Cleaning, Data Modeling, Statistical Analysis, A/B Testing, Dashboard Creation
+
+Experience:
+Data Analyst - John Keells Holdings, Colombo (2021 - Present)
+- Developed automated dashboards to track key business metrics, providing real-time insights to management.
+
+Education:
+B.Sc. in Statistics & Computer Science - University of Colombo
