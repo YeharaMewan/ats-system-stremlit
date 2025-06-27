@@ -26,6 +26,7 @@ st.markdown("""
         border-radius: 8px;
         border-left: 4px solid #28a745;
         margin-bottom: 1rem;
+        color: black;
     }
     .admin-badge {
         background: #dc3545;
@@ -140,12 +141,6 @@ def main():
             st.json(health_data)
         return
     
-    # Show backend status
-    with st.sidebar:
-        st.success("✅ Backend Connected")
-        with st.expander("🔍 System Status"):
-            st.json(health_data)
-    
     # Check if user is logged in by calling backend
     current_user, is_logged_in = get_current_user()
     
@@ -170,7 +165,7 @@ def show_login_page():
     """Display login page"""
     st.markdown("""
     <div class="login-container">
-        <h2 style="text-align: center; margin-bottom: 2rem;">🔐 Login to HR System</h2>
+        <h2 style="text-align: center; margin-bottom: 2rem; color: black;">🔐 Login to HR System</h2>
     </div>
     """, unsafe_allow_html=True)
     
@@ -327,50 +322,5 @@ How can I help you today?"""
                 st.markdown(response)
                 st.session_state.messages.append({"role": "assistant", "content": response})
     
-    # Quick action buttons based on role
-    st.markdown("### ⚡ Quick Actions")
-    
-    if user.get('role') == 'admin':
-        col1, col2, col3, col4 = st.columns(4)
-        
-        with col1:
-            if st.button("🔍 Search Java Developers", use_container_width=True):
-                st.session_state.messages.append({"role": "user", "content": "Search for Java developers"})
-                st.rerun()
-        
-        with col2:
-            if st.button("📋 Show All Candidates", use_container_width=True):
-                st.session_state.messages.append({"role": "user", "content": "Show me all candidates"})
-                st.rerun()
-        
-        with col3:
-            if st.button("💰 Calculate EMP014 Salary", use_container_width=True):
-                st.session_state.messages.append({"role": "user", "content": "Calculate salary for EMP014"})
-                st.rerun()
-        
-        with col4:
-            if st.button("📊 Payroll Report", use_container_width=True):
-                st.session_state.messages.append({"role": "user", "content": "Generate payroll report"})
-                st.rerun()
-    
-    else:
-        col1, col2, col3 = st.columns(3)
-        emp_id = user.get('employee_id', 'EMP001')
-        
-        with col1:
-            if st.button(f"💰 My Salary ({emp_id})", use_container_width=True):
-                st.session_state.messages.append({"role": "user", "content": f"Calculate salary for {emp_id}"})
-                st.rerun()
-        
-        with col2:
-            if st.button("❓ Help", use_container_width=True):
-                st.session_state.messages.append({"role": "user", "content": "What can you help me with?"})
-                st.rerun()
-        
-        with col3:
-            if st.button("📋 HR Policies", use_container_width=True):
-                st.session_state.messages.append({"role": "user", "content": "Tell me about HR policies"})
-                st.rerun()
-
 if __name__ == "__main__":
     main()

@@ -78,19 +78,91 @@ class HRAgent:
         
         return workflow.compile()
     
+    def _extract_employee_id_or_name(self, query: str) -> str:
+        """Extract employee ID or name from query - ENHANCED VERSION"""
+        import re
+        
+        print(f"🔍 Extracting identifier from query: '{query}'")
+        
+        # First, try to extract employee ID patterns like EMP001, EMP014, ADM001
+        emp_id_match = re.search(r'(EMP\d{3}|ADM\d{3})', query.upper())
+        if emp_id_match:
+            extracted_id = emp_id_match.group()
+            print(f"✅ Extracted employee ID: {extracted_id}")
+            return extracted_id
+        
+        # If no ID found, try to extract name with enhanced patterns
+        name_patterns = [
+            # Pattern 1: "salary for John Doe"
+            r'(?:salary for|calculate salary for|payroll for|salary of)\s+([A-Za-z\s]+?)(?:\s*$|[?.!,])',
+            # Pattern 2: "for John Doe Smith"  
+            r'(?:for)\s+([A-Za-z]+(?:\s+[A-Za-z]+){1,2})(?:\s|$)',
+            # Pattern 3: "John Doe" (2-3 words)
+            r'\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,2})\b',
+            # Pattern 4: Any sequence of 2+ capitalized words
+            r'\b([A-Z][a-z]+\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\b'
+        ]
+        
+        # Words to exclude from name extraction
+        excluded_words = {
+            'salary', 'for', 'calculate', 'payroll', 'employee', 'the', 'a', 'an', 
+            'my', 'me', 'show', 'get', 'help', 'with', 'details', 'information',
+            'smith', 'john', 'jane', 'doe'  # Common test names
+        }
+        
+        for i, pattern in enumerate(name_patterns):
+            matches = re.findall(pattern, query, re.IGNORECASE)
+            print(f"🔍 Pattern {i+1} matches: {matches}")
+            
+            for match in matches:
+                if isinstance(match, tuple):
+                    match = match[0]  # Take first group if tuple
+                
+                extracted_name = match.strip()
+                
+                # Clean the extracted name
+                name_words = extracted_name.lower().split()
+                clean_words = [word for word in name_words if word not in excluded_words and len(word) > 1]
+                
+                if len(clean_words) >= 1:  # At least 1 valid word
+                    clean_name = ' '.join(clean_words).title()
+                    if len(clean_name) > 2:  # At least 3 characters
+                        print(f"✅ Extracted employee name: '{clean_name}' (from pattern {i+1})")
+                        return clean_name
+        
+        # If no good pattern match, look for any capitalized words that might be names
+        words = query.split()
+        potential_names = []
+        
+        for word in words:
+            cleaned_word = re.sub(r'[^\w]', '', word)  # Remove punctuation
+            if (len(cleaned_word) > 2 and 
+                cleaned_word[0].isupper() and 
+                cleaned_word.lower() not in excluded_words):
+                potential_names.append(cleaned_word)
+        
+        if len(potential_names) >= 2:
+            combined_name = ' '.join(potential_names[:3])  # Max 3 words
+            print(f"✅ Extracted potential name from words: '{combined_name}'")
+            return combined_name
+        
+        print(f"❌ No employee ID or name extracted from: '{query}'")
+        return None
+        
     def _check_permissions(self, state: AgentState) -> AgentState:
-        """Check user permissions"""
+        """Check user permissions - FIXED VERSION"""
         user_role = state["user_context"].get('role', 'user')
+        user_employee_id = state["user_context"].get('employee_id')
         query = state["user_query"].lower()
-        
-        print(f"🔐 Checking permissions for {user_role}: '{query}'")
-        
+    
+        print(f"🔐 Checking permissions for {user_role} (ID: {user_employee_id}): '{query}'")
+    
         # Admin can do everything
         if user_role == 'admin':
             state["permission_granted"] = True
             print("✅ Admin access granted")
             return state
-        
+    
         # User role restrictions
         if user_role == 'user':
             # Check if trying to access ATS functions
@@ -100,17 +172,60 @@ class HRAgent:
                 state["denied_reason"] = "ATS access is restricted to HR Admin users only."
                 print("❌ ATS access denied for regular user")
                 return state
-            
-            # Check if trying to access other users' payroll
-            payroll_keywords = ['salary', 'payroll', 'calculate', 'employee']
+        
+            # Check payroll access - FIXED LOGIC
+            payroll_keywords = ['salary', 'payroll', 'calculate']
             if any(keyword in query for keyword in payroll_keywords):
-                user_employee_id = state["user_context"].get('employee_id')
-                if user_employee_id not in query:
+                # Extract employee identifier from query
+                extracted_identifier = self._extract_employee_id_or_name(query)
+            
+                print(f"🔍 Extracted identifier: '{extracted_identifier}', User ID: '{user_employee_id}'")
+            
+                # Allow access if:
+                # 1. No specific employee mentioned (general payroll query)
+                # 2. User's own employee ID is mentioned
+                # 3. User's own name is mentioned (partial match)
+                if extracted_identifier:
+                    user_name = state["user_context"].get('name', '')
+                
+                    # Check if it matches user's employee ID
+                    if extracted_identifier.upper() == user_employee_id:
+                        print("✅ User accessing own employee ID")
+                        state["permission_granted"] = True
+                        return state
+                
+                    # Check if it matches user's name (case insensitive)
+                    if user_name and extracted_identifier.lower() in user_name.lower():
+                        print("✅ User accessing own name")
+                        state["permission_granted"] = True
+                        return state
+                
+                    # Check if extracted name matches user name (reverse)
+                    if user_name and user_name.lower() in extracted_identifier.lower():
+                        print("✅ User name matches extracted identifier")
+                        state["permission_granted"] = True
+                        return state
+                
+                    # If none match, deny access
                     state["permission_granted"] = False
-                    state["denied_reason"] = "You can only access your own payroll information."
-                    print(f"❌ Payroll access denied - user can only access {user_employee_id}")
+                    state["denied_reason"] = f"You can only access your own payroll information. Use your Employee ID '{user_employee_id}' or your name '{user_name}'."
+                    print(f"❌ Payroll access denied - '{extracted_identifier}' doesn't match user '{user_employee_id}' or '{user_name}'")
+                    return state
+                else:
+                    # No specific employee mentioned - allow general payroll queries
+                    print("✅ General payroll query allowed")
+                    state["permission_granted"] = True
                     return state
         
+        # Check if trying to access other admin functions
+        admin_keywords = ['all employees', 'list employees', 'payroll report', 'generate report']
+        if any(keyword in query for keyword in admin_keywords):
+            state["permission_granted"] = False
+            state["denied_reason"] = "This function is available to HR Admin only."
+            print("❌ Admin function access denied for regular user")
+            return state
+    
+        # Allow all other queries
         state["permission_granted"] = True
         print("✅ Permission granted")
         return state
@@ -195,58 +310,151 @@ For candidate management and ATS functions, please contact your HR Admin.
         return state
     
     def _handle_payroll(self, state: AgentState) -> AgentState:
-        """Handle payroll related tasks"""
+        """Handle payroll related tasks - ENHANCED WITH BETTER ERROR HANDLING"""
         try:
             query = state["user_query"].lower()
             user_role = state["user_context"].get('role', 'user')
+            user_employee_id = state["user_context"].get('employee_id')
+            user_name = state["user_context"].get('name', '')
             
             print(f"💰 Handling payroll request: '{query}' for role: {user_role}")
+            print(f"👤 User context: ID={user_employee_id}, Name={user_name}")
             
-            if "calculate salary" in query or "salary for" in query:
-                emp_id = self._extract_employee_id(state["user_query"])
-                print(f"💰 Extracting employee ID: {emp_id}")
+            if "calculate salary" in query or "salary for" in query or "salary" in query or "payroll" in query:
+                emp_identifier = self._extract_employee_id_or_name(state["user_query"])
+                print(f"💰 Extracted employee identifier: '{emp_identifier}'")
                 
-                # For non-admin users, only allow access to their own salary
+                # For non-admin users, enforce access control
                 if user_role != 'admin':
-                    user_emp_id = state["user_context"].get('employee_id')
-                    if emp_id != user_emp_id:
-                        emp_id = user_emp_id  # Force to their own employee ID
-                        print(f"🔒 Non-admin user restricted to own ID: {emp_id}")
+                    print(f"🔒 Non-admin user access control check")
+                    
+                    # If no identifier extracted, use user's own data
+                    if not emp_identifier:
+                        emp_identifier = user_employee_id
+                        print(f"🔒 No identifier specified, using user's own ID: {emp_identifier}")
+                    else:
+                        # Check if the identifier matches the user
+                        identifier_matches_user = False
+                        
+                        # Check employee ID match
+                        if emp_identifier.upper() == user_employee_id:
+                            identifier_matches_user = True
+                            print(f"✅ Identifier matches user employee ID")
+                        
+                        # Check name match (case insensitive, partial)
+                        elif user_name:
+                            user_name_lower = user_name.lower()
+                            identifier_lower = emp_identifier.lower()
+                            
+                            if (identifier_lower in user_name_lower or 
+                                user_name_lower in identifier_lower or
+                                any(part in identifier_lower for part in user_name_lower.split()) or
+                                any(part in user_name_lower for part in identifier_lower.split())):
+                                identifier_matches_user = True
+                                print(f"✅ Identifier matches user name")
+                        
+                        if not identifier_matches_user:
+                            # Return access denied message instead of forcing
+                            state["tool_result"] = {
+                                "type": "error", 
+                                "message": f"Access denied. You can only access your own payroll information. Use '{user_employee_id}' or '{user_name}'"
+                            }
+                            return state
                 
-                if emp_id:
-                    print(f"💰 Calculating salary for: {emp_id}")
-                    result = self.payroll_tools.calculate_salary(emp_id)
-                    state["tool_result"] = {"type": "salary_calculation", "result": result}
+                # Proceed with salary calculation
+                if emp_identifier:
+                    print(f"💰 Proceeding with salary calculation for: '{emp_identifier}'")
+                    
+                    # Try the calculation
+                    try:
+                        result = self.payroll_tools.calculate_salary(emp_identifier)
+                        
+                        # Check if it's an access denied error for non-admin users
+                        if "error" in result and user_role != 'admin':
+                            # For regular users, if their identifier doesn't work, try their employee ID
+                            if emp_identifier != user_employee_id:
+                                print(f"🔄 Retrying with user's employee ID: {user_employee_id}")
+                                result = self.payroll_tools.calculate_salary(user_employee_id)
+                        
+                        state["tool_result"] = {"type": "salary_calculation", "result": result}
+                        
+                    except Exception as e:
+                        print(f"❌ Salary calculation failed: {e}")
+                        state["tool_result"] = {
+                            "type": "error", 
+                            "message": f"Error calculating salary: {str(e)}"
+                        }
                 else:
-                    state["tool_result"] = {"type": "error", "message": "Please specify employee ID"}
+                    state["tool_result"] = {
+                        "type": "error", 
+                        "message": f"Please specify your employee ID '{user_employee_id}' or use your name '{user_name}'"
+                    }
             
-            elif "payroll report" in query or "report" in query:
+            elif "payroll report" in query or "generate report" in query or "report" in query:
                 if user_role == 'admin':
                     department = self._extract_department(state["user_query"])
                     print(f"📊 Generating payroll report for: {department or 'all departments'}")
-                    result = self.payroll_tools.generate_payroll_report(department)
-                    state["tool_result"] = {"type": "payroll_report", "result": result}
+                    try:
+                        result = self.payroll_tools.generate_payroll_report(department)
+                        state["tool_result"] = {"type": "payroll_report", "result": result}
+                    except Exception as e:
+                        print(f"❌ Payroll report failed: {e}")
+                        state["tool_result"] = {"type": "error", "message": f"Error generating report: {str(e)}"}
                 else:
                     state["tool_result"] = {"type": "error", "message": "Payroll reports are available to HR Admin only"}
             
-            elif "all employees" in query or "list employees" in query:
+            elif "all employees" in query or "list employees" in query or "show employees" in query:
                 if user_role == 'admin':
                     print("👥 Getting all employees")
-                    results = self.payroll_tools.get_all_employees()
-                    state["tool_result"] = {"type": "all_employees", "results": results}
+                    try:
+                        results = self.payroll_tools.get_all_employees()
+                        if results and len(results) > 0 and "error" not in results[0]:
+                            state["tool_result"] = {"type": "all_employees", "results": results}
+                        else:
+                            error_msg = results[0].get("error", "No employees found") if results else "No employees found"
+                            state["tool_result"] = {"type": "error", "message": error_msg}
+                    except Exception as e:
+                        print(f"❌ Get all employees failed: {e}")
+                        state["tool_result"] = {"type": "error", "message": f"Error getting employees: {str(e)}"}
                 else:
                     state["tool_result"] = {"type": "error", "message": "Employee list is available to HR Admin only"}
             
+            elif "debug" in query and user_role == 'admin':
+                # Debug functionality for admin users
+                print("🔧 Running debug for admin user")
+                try:
+                    debug_info = self.payroll_tools.debug_employee_data()
+                    state["tool_result"] = {"type": "debug_info", "result": debug_info}
+                except Exception as e:
+                    state["tool_result"] = {"type": "error", "message": f"Debug failed: {str(e)}"}
+            
             else:
-                user_emp_id = state["user_context"].get('employee_id', 'your employee ID')
+                # General payroll help
+                if user_role == 'admin':
+                    help_message = """I can help you with:
+    • "Calculate salary for [Employee ID or Name]"
+    • "Generate payroll report"
+    • "Show all employees"
+    • "Generate payroll report for [Department]"
+    """
+                else:
+                    help_message = f"""I can help you check your salary:
+    • "Calculate salary for {user_employee_id}"
+    • "Calculate salary for {user_name}"
+    • "Show my payroll details"
+    • "Calculate my salary"
+    """
+                
                 state["tool_result"] = {
                     "type": "payroll_help",
-                    "message": f"I can help you check your salary. Try: 'Calculate salary for {user_emp_id}'"
+                    "message": help_message
                 }
                 
         except Exception as e:
-            print(f"❌ Payroll error: {e}")
-            state["tool_result"] = {"type": "error", "message": f"Payroll error: {str(e)}"}
+            print(f"❌ Payroll handler error: {e}")
+            import traceback
+            traceback.print_exc()
+            state["tool_result"] = {"type": "error", "message": f"Payroll system error: {str(e)}"}
         
         return state
     
@@ -267,42 +475,159 @@ For candidate management and ATS functions, please contact your HR Admin.
         return state
     
     def _generate_general_response(self, query: str, user_name: str, user_role: str) -> str:
-        """Generate general responses based on user role"""
+        """Generate context-aware general responses based on user role and query"""
+        query_lower = query.lower()
+        
         if user_role == 'admin':
             capabilities = """
-🎯 As an HR Admin, you have full access to:
+    🎯 As an HR Admin, you have full access to:
 
-**🔍 Candidate Management (ATS):**
-• "Search for Java developers"
-• "Show me all candidates"
-• "Find candidates with Python experience"
+    **🔍 Candidate Management (ATS):**
+    • "Search for Java developers"
+    • "Show me all candidates"
+    • "Find candidates with Python experience"
 
-**💰 Payroll Management:**
-• "Calculate salary for EMP001"
-• "Calculate salary for EMP014"
-• "Generate payroll report for IT department"
-• "Show all employees"
+    **💰 Payroll Management:**
+    • "Calculate salary for EMP001"
+    • "Calculate salary for EMP014"
+    • "Generate payroll report for IT department"
+    • "Show all employees"
 
-**⚙️ System Administration:**
-• Upload candidate CVs
-• Manage employee data
-"""
-        else:
-            capabilities = f"""
-🎯 As a regular user, you can access:
-
-**💰 Your Own Payroll Information:**
-• "Calculate salary for {user_name.split()[0] if user_name else 'your employee ID'}"
-• "Show my payroll details"
-
-**📋 General HR Inquiries:**
-• Ask about company policies
-• Get help with HR procedures
-
-Note: For candidate management and other employees' information, please contact HR Admin.
-"""
+    **⚙️ System Administration:**
+    • Upload candidate CVs
+    • Manage employee data
+    """
+            return f"👋 Hello {user_name}!\n\n{capabilities}\n\nHow can I help you today?"
         
-        return f"👋 Hello {user_name}!\n\n{capabilities}\n\nHow can I help you today?"
+        else:
+            # User-specific responses based on query context
+            if any(keyword in query_lower for keyword in ['policy', 'policies', 'company policy']):
+                return f"""
+    📋 **Company HR Policies - {user_name}**
+
+    **🏢 Work Policies:**
+    • Working Hours: 9:00 AM - 6:00 PM (Monday to Friday)
+    • Remote Work: Hybrid model available (3 days office, 2 days remote)
+    • Break Time: 1 hour lunch break + 2x 15-minute tea breaks
+
+    **🏖️ Leave Policies:**
+    • Annual Leave: 21 days per year
+    • Sick Leave: 7 days per year
+    • Maternity/Paternity Leave: As per labor law
+    • Emergency Leave: Subject to approval
+
+    **💰 Payroll Policies:**
+    • Salary Payment: Last working day of each month
+    • Overtime: 1.5x rate for approved overtime hours
+    • Bonus: Performance-based annual bonus
+
+    **📞 HR Contact:**
+    • HR Department: hr@company.com
+    • Phone: +94-11-1234567
+    • Office Hours: 9:00 AM - 5:00 PM
+
+    Need specific policy details? Feel free to ask!
+    """
+            
+            elif any(keyword in query_lower for keyword in ['help', 'procedure', 'procedures', 'process']):
+                return f"""
+    🛠️ **HR Procedures & Help - {user_name}**
+
+    **💰 Payroll Procedures:**
+    • Check Your Salary: "Calculate salary for {user_name}" or "Calculate salary for your employee ID"
+    • Salary Queries: Contact HR for salary adjustments or tax queries
+    • Payslip: Available through employee portal
+
+    **📋 Leave Procedures:**
+    1. Submit leave request through employee portal
+    2. Get supervisor approval
+    3. HR will process and confirm
+    4. Update your calendar accordingly
+
+    **🏥 Medical Claims:**
+    1. Submit medical bills to HR within 30 days
+    2. Fill out reimbursement form
+    3. Processing time: 7-10 working days
+
+    **📧 General Procedures:**
+    • Email Support: hr@company.com
+    • Phone Support: +94-11-1234567
+    • IT Support: it@company.com
+    • Emergency Contact: +94-77-9876543
+
+    **🔧 Common Tasks:**
+    • Password Reset: Contact IT department
+    • Equipment Issues: Submit IT ticket
+    • Document Requests: Contact HR
+
+    Need help with a specific procedure? Just ask!
+    """
+            
+            elif any(keyword in query_lower for keyword in ['benefit', 'benefits', 'allowance', 'allowances']):
+                return f"""
+    💎 **Employee Benefits & Allowances - {user_name}**
+
+    **💰 Financial Benefits:**
+    • Performance Bonus: Annual performance-based bonus
+    • Transport Allowance: Rs. 15,000 per month
+    • Meal Allowance: Rs. 10,000 per month
+    • Mobile Allowance: Rs. 5,000 per month
+
+    **🏥 Health Benefits:**
+    • Medical Insurance: Full family coverage
+    • Dental Coverage: Annual checkups covered
+    • Eye Care: Annual eye tests + glasses allowance
+    • Health Checkups: Annual health screening
+
+    **🎓 Development Benefits:**
+    • Training Budget: Rs. 50,000 per year
+    • Conference Attendance: Subject to approval
+    • Certification Support: Company sponsored
+    • Online Courses: Udemy/Coursera access
+
+    **🏖️ Time-Off Benefits:**
+    • Flexible Working Hours
+    • Work from Home Options
+    • Birthday Leave: Extra day off on your birthday
+    • Volunteer Leave: 2 days for community service
+
+    **🎉 Additional Perks:**
+    • Team Building Events
+    • Annual Company Trip
+    • Employee Recognition Awards
+    • Free Parking
+
+    Want details about any specific benefit? Just ask!
+    """
+            
+            else:
+                # Default user capabilities
+                user_emp_id = user_name.split()[-1] if user_name else "your employee ID"
+                return f"""
+    👋 **Hello {user_name}! Welcome to HR Assistant**
+
+    🎯 **What I can help you with:**
+
+    **💰 Your Payroll Information:**
+    • "Calculate salary for {user_name}"
+    • "Show my payroll details"
+    • "Calculate my salary"
+
+    **📋 HR Information & Support:**
+    • "Ask about company policies" - Get detailed policy information
+    • "Get help with HR procedures" - Step-by-step procedure guides
+    • "Tell me about employee benefits" - Complete benefits overview
+
+    **❓ Example Questions:**
+    • "What are the leave policies?"
+    • "How do I submit a medical claim?"
+    • "What benefits do I have?"
+    • "What are the working hours?"
+
+    **🚫 Note:** For candidate management and other employees' salary information, please contact HR Admin.
+
+    How can I help you today?
+    """
     
     def _format_tool_result(self, tool_result: Dict[str, Any], user_role: str) -> str:
         """Format tool results for display"""
